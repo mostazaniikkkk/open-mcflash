@@ -6,7 +6,7 @@ The interface is in Spanish, like the Spanish edition of Flash 8. This README us
 
 > An independent clean-room reimplementation. It uses no Macromedia/Adobe code or assets.
 
-**Live version:** the installable web version is published from the `gh-pages` branch to GitHub Pages, at `https://<user>.github.io/<repo>/`.
+**Live version:** the installable web version is published from the `gh-pages` branch to GitHub Pages, at **https://mostazaniikkkk.github.io/open-mcflash/** (open it in Edge or Chrome and click *Install* in the address bar).
 
 ## Getting started
 
