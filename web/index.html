@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open McFlash</title>
+<meta name="theme-color" content="#252525">
+<meta name="description" content="Editor de animación al estilo Flash 8 que funciona en el navegador">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23c8102e'/%3E%3Crect x='16' y='24' width='11' height='2.6' rx='1.3' fill='%23fff'/%3E%3Ccircle cx='16' cy='16' r='10.5' fill='%23fff'/%3E%3Ccircle cx='16' cy='10.6' r='2.5' fill='%23c8102e'/%3E%3Ccircle cx='21.1' cy='14.3' r='2.5' fill='%23c8102e'/%3E%3Ccircle cx='19.2' cy='20.4' r='2.5' fill='%23c8102e'/%3E%3Ccircle cx='12.8' cy='20.4' r='2.5' fill='%23c8102e'/%3E%3Ccircle cx='10.9' cy='14.3' r='2.5' fill='%23c8102e'/%3E%3Ccircle cx='16' cy='16' r='1.4' fill='%23c8102e'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+  <header id="menubar">
+    <div class="logo" title="Open McFlash"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#c8102e"/><rect x="16" y="24" width="11" height="2.6" rx="1.3" fill="#fff"/><circle cx="16" cy="16" r="10.5" fill="#fff"/><circle cx="16" cy="10.6" r="2.5" fill="#c8102e"/><circle cx="21.1" cy="14.3" r="2.5" fill="#c8102e"/><circle cx="19.2" cy="20.4" r="2.5" fill="#c8102e"/><circle cx="12.8" cy="20.4" r="2.5" fill="#c8102e"/><circle cx="10.9" cy="14.3" r="2.5" fill="#c8102e"/><circle cx="16" cy="16" r="1.4" fill="#c8102e"/></svg></div>
+    <nav id="menus"></nav>
+    <div class="grow"></div>
+    <span id="docname" class="muted"></span>
+  </header>
+
+  <div id="optionsbar"></div>
+
+  <div id="main">
+    <aside id="toolbar"></aside>
+
+    <section id="center">
+      <div id="tabs">
+        <div class="tab active"><span id="tabname">Sin título-1</span></div>
+      </div>
+      <div id="editbar">
+        <button class="btn small on" id="tl-toggle" data-cmd="toggleTimeline" title="Mostrar u ocultar la línea de tiempo (Ctrl+Alt+T)">Línea de tiempo</button>
+        <button class="ib" id="scope-back" data-cmd="leaveGroup" disabled title="Volver (sale del grupo o símbolo que estás editando)"><svg viewBox="0 0 20 20"><path d="M16 10H5M9 5l-5 5 5 5"/></svg></button>
+        <span class="scene" id="crumbs"></span>
+        <div class="grow"></div>
+        <button class="ib" id="sym-btn" data-cmd="symbolsMenu" title="Editar símbolos"><svg viewBox="0 0 20 20"><circle cx="7" cy="8" r="4"/><path d="M10 16l3.5-7 3.5 7z"/><path d="M14 4l2 2 2-2"/></svg></button>
+        <button class="ib" id="scene-btn" data-cmd="sceneMenu" title="Editar escena"><svg viewBox="0 0 20 20"><path d="M3 7h14v9H3zM3 7l2-3h3l-2 3M8 7l2-3h3l-2 3M13 7l2-3h2"/><path d="M14 12l2 2 2-2" /></svg></button>
+        <select id="zoomsel" title="Zoom">
+          <option value="fit">Mostrar fotograma</option>
+          <option value="25">25%</option><option value="50">50%</option><option value="100">100%</option>
+          <option value="200">200%</option><option value="400">400%</option><option value="800">800%</option>
+          <option value="custom" hidden>—</option>
+        </select>
+      </div>
+
+      <div id="timeline">
+        <div class="tl-body">
+          <div id="tl-layers"></div>
+          <div id="tl-gridwrap"><canvas id="tl-grid"></canvas></div>
+        </div>
+        <div class="tl-foot">
+          <div class="tl-foot-layers">
+            <button class="ib" data-cmd="addLayer" title="Insertar capa"><svg viewBox="0 0 20 20"><path d="M3 5h8l3 3v8H3z"/><path d="M16 1.5v5M13.5 4h5"/></svg></button>
+            <button class="ib" data-cmd="addMotionGuide" title="Añadir guía de movimiento"><svg viewBox="0 0 20 20"><path d="M3 15c3-8 6 0 9-6s3-4 5-5" stroke-dasharray="2 2"/></svg></button>
+            <button class="ib" data-cmd="addFolder" title="Insertar carpeta de capas"><svg viewBox="0 0 20 20"><path d="M2 6h6l2 2h8v8H2z"/></svg></button>
+            <div class="grow"></div>
+            <button class="ib" data-cmd="deleteLayer" title="Eliminar capa"><svg viewBox="0 0 20 20"><path d="M5 6h10l-1 11H6zM3.5 6h13M8 6V4h4v2"/></svg></button>
+          </div>
+          <div class="tl-foot-frames">
+            <button class="ib" data-cmd="centerFrame" title="Centrar fotograma"><svg viewBox="0 0 20 20"><path d="M10 3v14"/><path d="M6 7l-3 3 3 3M14 7l3 3-3 3"/></svg></button>
+            <button class="ib" id="onionbtn" data-cmd="toggleOnion" title="Papel cebolla"><svg viewBox="0 0 20 20"><rect x="3" y="5" width="9" height="9" opacity=".45"/><rect x="8" y="7" width="9" height="9"/></svg></button>
+            <button class="ib" id="onionoutl" data-cmd="onionOutlines" title="Papel cebolla en contornos"><svg viewBox="0 0 20 20"><rect x="3" y="5" width="9" height="9" fill="none" stroke-dasharray="2 1.5"/><rect x="8" y="7" width="9" height="9" fill="none"/></svg></button>
+            <button class="ib" id="editmulti" data-cmd="editMultiple" title="Editar varios fotogramas"><svg viewBox="0 0 20 20"><rect x="2" y="6" width="7" height="8"/><rect x="11" y="6" width="7" height="8"/></svg></button>
+            <button class="ib" id="onionmarks" data-cmd="onionMarkers" title="Modificar marcadores de papel cebolla"><svg viewBox="0 0 20 20"><path d="M5 4H3v12h2M15 4h2v12h-2"/><path d="M8 10h4"/></svg></button>
+            <span class="sep"></span>
+            <button class="ib" data-cmd="firstFrame" title="Rebobinar (Ctrl+Alt+R)"><svg viewBox="0 0 20 20"><path d="M5 5v10M15 5l-7 5 7 5z" class="f"/></svg></button>
+            <button class="ib" data-cmd="prevFrame" title="Retroceder un fotograma (,)"><svg viewBox="0 0 20 20"><path d="M13 5l-7 5 7 5z" class="f"/></svg></button>
+            <button class="ib" id="playbtn" data-cmd="togglePlay" title="Reproducir / detener (Intro)"><svg viewBox="0 0 20 20"><path d="M6 4l10 6-10 6z" class="f"/></svg></button>
+            <button class="ib" data-cmd="nextFrame" title="Avanzar un fotograma (.)"><svg viewBox="0 0 20 20"><path d="M7 5l7 5-7 5z" class="f"/></svg></button>
+            <button class="ib" data-cmd="lastFrame" title="Ir al final"><svg viewBox="0 0 20 20"><path d="M15 5v10M5 5l7 5-7 5z" class="f"/></svg></button>
+            <span class="sep"></span>
+            <span class="tl-readout"><b id="ro-frame">1</b></span>
+            <span class="tl-readout"><b id="ro-fps">12.0</b><span class="muted">fps</span></span>
+            <span class="tl-readout"><b id="ro-time">0.0s</b></span>
+          </div>
+        </div>
+      </div>
+      <div id="tl-splitter" title="Arrastra para redimensionar la línea de tiempo"></div>
+
+      <div id="viewport"><canvas id="stage"></canvas></div>
+      <div id="statusbar">
+        <span id="st-coords">x: — y: —</span>
+        <span id="st-doc"></span>
+        <span class="grow"></span>
+        <span id="st-hint" class="muted"></span>
+      </div>
+    </section>
+
+    <aside id="panels"></aside>
+  </div>
+</div>
+
+<div id="popover" class="popover" hidden></div>
+<div id="ctxmenu" class="menu-dropdown" hidden></div>
+<div id="toast" hidden></div>
+
+<div id="modal-back" hidden>
+  <div id="modal" role="dialog" aria-modal="true">
+    <div class="modal-head"><span id="modal-title"></span><button class="modal-x" data-close>×</button></div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<input type="file" id="fileopen" accept=".omf,.json,application/json" hidden>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

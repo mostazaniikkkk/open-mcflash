@@ -1,0 +1,12 @@
+# Original installer and anything extracted from it: never part of the repository.
+/Dump/
+
+# Build outputs (regenerate with wasm-pack and `node build.js`).
+/omf-core/target/
+/web/pkg/
+/dist/
+
+# Test leftovers.
+__pycache__/
+/tests/e2e/artifacts/
+.pytest_cache/
